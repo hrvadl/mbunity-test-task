@@ -1,7 +1,3 @@
-const OUTPUT_FILE_PATH = "./output/result.json";
-const INPUT_FILE_PATH = "./input/nodes.json";
-
-module.exports = {
-  INPUT_FILE_PATH,
-  OUTPUT_FILE_PATH,
-};
+const FILE_NAME = "nodes.json";
+export const OUTPUT_FILE_PATH = `./output/${FILE_NAME}`;
+export const INPUT_FILE_PATH = `./input/${FILE_NAME}`;

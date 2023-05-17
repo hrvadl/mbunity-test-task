@@ -1,5 +1,12 @@
 # Mbunity Software Engineering Technical Assessment
 
+## How to run the code?
+
+- Make sure you have Node.js version >= 18
+- Run `npm i` from the root of the project
+- Run `npm start` from the root of the project
+- The result will be in `/output/nodes.json`
+
 ## Overview
 
 This is a Mbunity Development technical assessment for potential JavaScript and Python Software Engineers.
