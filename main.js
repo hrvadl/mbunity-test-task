@@ -60,7 +60,7 @@ const convertFlatArrayToSortedTree = input => {
    * The main root(root with null previous sibling) contains pointer
    * to all other nodes
    */
-  return linkedListToSortedTree(mainRoot)
+  return mainRoot ? linkedListToSortedTree(mainRoot) : []
 }
 /**
  * O(2N) Time complexity
