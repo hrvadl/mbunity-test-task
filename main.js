@@ -1,67 +1,67 @@
-import { linkedListToSortedTree } from "./src/helpers.js";
-import { INPUT_FILE_PATH, OUTPUT_FILE_PATH } from "./src/constants.js";
-import { isFirstChild, isFirstRoot } from "./src/typeCheckers.js";
-import { readFile, writeFile } from "./src/file.js";
+import linkedListToSortedTree from './src/helpers.js'
+import { INPUT_FILE_PATH, OUTPUT_FILE_PATH } from './src/constants.js'
+import { isFirstChild, isFirstRoot } from './src/typeCheckers.js'
+import { readFile, writeFile } from './src/file.js'
 
-const convertFlatArrayToSortedTree = (input) => {
+const convertFlatArrayToSortedTree = input => {
   /**
    * mainRoot - the pointer to the first root of the tree(root without previous siblings)
    */
-  let mainRoot = null;
+  let mainRoot = null
   /**
    * Nodes that we've already visited
    * [nodeId]: node
    */
-  const visitedNodes = new Map();
+  const visitedNodes = new Map()
   /**
    * Contains all the nodes which are waiting for unvisited sibling to be visited
    * { [previousSiblingId]: node }
    */
-  const waitingForSiblingNodes = new Map();
+  const waitingForSiblingNodes = new Map()
   /**
    * Contains all the nodes which are waiting for unvisited parent to be visited
    * { [parentId]: node }
    */
-  const waitingForParentNodes = new Map();
+  const waitingForParentNodes = new Map()
   /**
    * Helper function which is responsible for processing the case when
    * we're dealing with the fist child without siblings
    */
-  const handleFirstChild = (node) => {
-    const parent = visitedNodes.get(node.parentId);
-    if (!parent) waitingForParentNodes.set(node.parentId, node);
-    else parent.children = node;
-  };
+  const handleFirstChild = node => {
+    const parent = visitedNodes.get(node.parentId)
+    if (!parent) waitingForParentNodes.set(node.parentId, node)
+    else parent.children = node
+  }
   /**
    * Helper function which is responsible for processing the case when
    * we're dealing with the child with previous siblings
    */
-  const handleNotFirstChild = (node) => {
-    const previousSibling = visitedNodes.get(node.previousSiblingId);
-    if (previousSibling) previousSibling.next = node;
-    else waitingForSiblingNodes.set(node.previousSiblingId, node);
-  };
+  const handleNotFirstChild = node => {
+    const previousSibling = visitedNodes.get(node.previousSiblingId)
+    if (previousSibling) previousSibling.next = node
+    else waitingForSiblingNodes.set(node.previousSiblingId, node)
+  }
 
-  for (let node of input) {
-    node = { ...node, children: null, next: null };
-    visitedNodes.set(node.nodeId, node);
+  for (let i = 0; i < input.length; i += 1) {
+    const node = { ...input[i], children: null, next: null }
+    visitedNodes.set(node.nodeId, node)
 
-    if (isFirstChild(node)) handleFirstChild(node);
-    else handleNotFirstChild(node);
+    if (isFirstChild(node)) handleFirstChild(node)
+    else handleNotFirstChild(node)
     /**
      * Setting node's siblings and children(if exist) or else null
      */
-    node.next = waitingForSiblingNodes.get(node.nodeId) ?? null;
-    node.children = waitingForParentNodes.get(node.nodeId) ?? null;
+    node.next = waitingForSiblingNodes.get(node.nodeId) ?? null
+    node.children = waitingForParentNodes.get(node.nodeId) ?? null
 
-    if (isFirstRoot(node)) mainRoot = node;
+    if (isFirstRoot(node)) mainRoot = node
   }
   /**
    * The main root(root with null previous sibling) contains pointer
    * to all other nodes
    */
-  return linkedListToSortedTree(mainRoot);
-};
+  return linkedListToSortedTree(mainRoot)
+}
 /**
  * O(2N) Time complexity
  * 0(3N) Memory complexity :(
@@ -90,9 +90,9 @@ const convertFlatArrayToSortedTree = (input) => {
  *   back to required schema
  */
 const main = (inputPath, outputPath) => {
-  const inputNodes = readFile(inputPath, JSON.parse);
-  const sortedTree = convertFlatArrayToSortedTree(inputNodes);
-  writeFile(JSON.stringify(sortedTree, null, 2), outputPath);
-};
+  const inputNodes = readFile(inputPath, JSON.parse)
+  const sortedTree = convertFlatArrayToSortedTree(inputNodes)
+  writeFile(JSON.stringify(sortedTree, null, 2), outputPath)
+}
 
-main(INPUT_FILE_PATH, OUTPUT_FILE_PATH);
+main(INPUT_FILE_PATH, OUTPUT_FILE_PATH)

@@ -6,6 +6,8 @@
 - Run `npm i` from the root of the project
 - Run `npm start` from the root of the project
 - The result will be in `/output/nodes.json`
+- **Optionally**: Run `npm run lint:fix` to run eslint
+- **Optionally**: Run `npm run format` to format the code
 
 ## Overview
 
